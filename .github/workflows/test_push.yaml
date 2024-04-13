@@ -46,13 +46,7 @@ jobs:
             unset SCRIPT_AES256_ENCRYPTION_KEY
           fi
       
-      - name: Checking encryption option
+      - name: Ckeck key
         shell: bash
         run: |
-          if [[ ${{ inputs.godot_encryption_key != '' }} ]]; then
-            echo "Building encrypted binary ${{ inputs.godot_encryption_key}}"
-            export SCRIPT_AES256_ENCRYPTION_KEY="${{ inputs.godot_encryption_key}}"
-          else
-            echo "Building binary without encryption "${{ inputs.godot_encryption_key}}"
-            unset SCRIPT_AES256_ENCRYPTION_KEY
-          fi
+          echo $SCRIPT_AES256_ENCRYPTION_KEY
