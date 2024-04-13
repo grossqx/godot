@@ -3,10 +3,6 @@ description: Download and extract the GodotSteam source code for use in compilin
 runs:
   using: "composite"
   steps:
-    # Check files
-    - run: ls ${{ github.workspace }}
-      shell: bash
-
     - name: Download and extract GodotSteam
       uses: actions/checkout@v4
       with:
@@ -14,19 +10,7 @@ runs:
         path: "godotsteam"
         ref: "godot4"
 
-    # Check files
-    - run: ls ${{ github.workspace }}
-      shell: bash
-
-    # Check files
-    - run: ls ${{ github.workspace }}/modules
-      shell: bash
-
     - name: Copy GodotSteam
       shell: bash
       run: |
         cp -r godotsteam ./modules/godotsteam
-
-    # Check files
-    - run: ls ${{ github.workspace }}/modules
-      shell: bash

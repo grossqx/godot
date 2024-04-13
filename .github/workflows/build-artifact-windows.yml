@@ -80,4 +80,7 @@ jobs:
         uses: ./.github/actions/download-godotsteam
 
       # Check files
-      #- run: ls ${{ github.workspace }}
+      - run: dir ${{ github.workspace }}
+
+      # Check files
+      - run: dir ${{ github.workspace }}/modules
