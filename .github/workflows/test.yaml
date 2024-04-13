@@ -28,8 +28,8 @@ jobs:
       godotsteam_version: ${{ inputs.godotsteam_version }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
   build-windows:
-    needs: [env-setup]
     uses: ./.github/workflows/build-artifact-windows.yml
+    needs: [env-setup]
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
