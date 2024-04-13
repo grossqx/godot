@@ -44,6 +44,7 @@ runs:
           echo "Building encrypted binary"
         else
           echo "Building binary without encryption"
+        fi
     
     - name: SCONS Build
       shell: bash
