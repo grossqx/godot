@@ -60,11 +60,11 @@ jobs:
       # Check files
       - run: ls ${{ github.workspace }}
 
-      - name: Check out Godot's fork repository code
-      - uses: actions/checkout@v4
+      #- name: Check out Godot's fork repository code
+      #- uses: actions/checkout@v4
 
       # Check files
-      - run: ls ${{ github.workspace }}
+      #- run: ls ${{ github.workspace }}
 
 
       # Download Godot to start
@@ -74,17 +74,17 @@ jobs:
       #    version: ${{ inputs.godot_tag }}
 
       # Preempt the missing bin folder
-      - name: Preempt missing Bin Folder
-        shell: bash
-        run: |
-          mkdir ./bin/
+      #- name: Preempt missing Bin Folder
+      #  shell: bash
+      #  run: |
+      #    mkdir ./bin/
 
       # Check files
-      - run: ls ${{ github.workspace }}
+      #- run: ls ${{ github.workspace }}
 
       # Download GodotSteam
-      - name: Download GodotSteam
-        uses: ./.github/actions/download-godotsteam
+      #- name: Download GodotSteam
+      #  uses: ./.github/actions/download-godotsteam
 
       # Check files
-      - run: ls ${{ github.workspace }}
+      #- run: ls ${{ github.workspace }}
