@@ -36,9 +36,9 @@ jobs:
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
-    secrets:
-      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
-      steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
+    #secrets:
+    #  steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
+    #  steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
 
 
 
