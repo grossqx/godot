@@ -27,8 +27,6 @@ jobs:
       godot_tag: ${{ inputs.godot_tag }}
       godotsteam_version: ${{ inputs.godotsteam_version }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
-
-
   build-windows:
     needs: [env-setup]
     uses: ./.github/workflows/build-artifact-windows.yml
@@ -39,9 +37,6 @@ jobs:
     #secrets:
     #  steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
     #  steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
-
-
-
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
