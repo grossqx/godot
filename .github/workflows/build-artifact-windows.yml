@@ -79,6 +79,10 @@ jobs:
       - name: Download GodotSteam
         uses: ./.github/actions/download-godotsteam
 
+      # Download SteamMultiplayerPeer
+      - name: Download GodotSteam
+        uses: ./.github/actions/download-godotsteam-multiplayer-peer
+
       # Check files
       - run: dir ${{ github.workspace }}
 
