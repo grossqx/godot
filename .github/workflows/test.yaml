@@ -3,9 +3,9 @@ run-name: Testing Windows build 🚀
 
 
 on:
-  push:
-    branches:
-      - 'testing-actions'
+  #push:
+  #  branches:
+  #    - 'testing-actions'
   workflow_dispatch:
     inputs:
       steamworks_sdk_tag:
