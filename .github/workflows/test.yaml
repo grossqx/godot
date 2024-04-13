@@ -41,4 +41,5 @@ jobs:
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
+      steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
     #  steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
