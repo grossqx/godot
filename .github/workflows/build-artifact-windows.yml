@@ -1,0 +1,90 @@
+on:
+  workflow_call:
+    inputs:
+      godot_tag:
+        required: true
+        type: string
+      godot_version:
+        required: true
+        type: string
+      steamworks_sdk_tag:
+        required: true
+        type: string
+    secrets:
+      steamworks_sdk_repo:
+        required: true
+      steamworks_sdk_repo_token:
+        required: true
+
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+
+    name: Windows ${{ matrix.name }}
+
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Editor and Templates (64-bit)
+            bits: x86_64
+            cache-name: windows64
+            editor-name: godot.windows.editor.x86_64.exe
+            editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.windows.64.exe
+            debug-name: godot.windows.template_debug.x86_64.exe
+            debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.windows.64.exe
+            release-name: godot.windows.template_release.x86_64.exe
+            release-name-new: godotsteam.${{ inputs.godot_version }}.template.windows.64.exe
+            steam-redist: steam_api64.dll
+            steam-redist-bin: win64/
+            steam-redist-bits: 64
+
+          #- name: Editor and Templates (32-bit)
+          #  bits: x86_32
+          #  cache-name: windows32
+          #  editor-name: godot.windows.editor.x86_32.exe
+          #  editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.windows.32.exe
+          #  debug-name: godot.windows.template_debug.x86_32.exe
+          #  debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.windows.32.exe
+          #  release-name: godot.windows.template_release.x86_32.exe
+          #  release-name-new: godotsteam.${{ inputs.godot_version }}.template.windows.32.exe
+          #  steam-redist: steam_api.dll
+          #  steam-redist-bin: ""
+          #  steam-redist-bits: 32
+
+
+    steps:
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      - name: Check out Godot's fork repository code
+      - uses: actions/checkout@v4
+
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+
+      # Download Godot to start
+      #- name: Download Godot
+      #  uses: ./.github/actions/download-godot
+      #  with:
+      #    version: ${{ inputs.godot_tag }}
+
+      # Preempt the missing bin folder
+      - name: Preempt missing Bin Folder
+        shell: bash
+        run: |
+          mkdir ./bin/
+
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      # Download GodotSteam
+      - name: Download GodotSteam
+        uses: ./.github/actions/download-godotsteam
+
+      # Check files
+      - run: ls ${{ github.workspace }}
