@@ -70,9 +70,6 @@ jobs:
         run: |
           mkdir ./bin/
 
-      # Check files
-      - run: dir ${{ github.workspace }}
-
       # Download GodotSteam
       - name: Download GodotSteam
         uses: ./.github/actions/download-godotsteam
