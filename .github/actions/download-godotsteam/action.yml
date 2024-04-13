@@ -4,7 +4,7 @@ runs:
   using: "composite"
   steps:
     # Check files
-    - run: ls ${{ github.workspace }}
+    - run: dir ${{ github.workspace }}
 
     - name: Download and extract GodotSteam
       uses: actions/checkout@v4
@@ -14,10 +14,10 @@ runs:
         ref: "godot4"
 
     # Check files
-    - run: ls ${{ github.workspace }}
+    - run: dir ${{ github.workspace }}
 
     # Check files
-    - run: ls ${{ github.workspace }}/modules
+    - run: dir ${{ github.workspace }}/modules
 
     - name: Copy GodotSteam
       shell: bash
@@ -25,4 +25,4 @@ runs:
         cp -r godotsteam ./modules/godotsteam
 
     # Check files
-    - run: ls ${{ github.workspace }}/modules
+    - run: dir ${{ github.workspace }}/modules

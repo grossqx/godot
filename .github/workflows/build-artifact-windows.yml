@@ -73,14 +73,11 @@ jobs:
           mkdir ./bin/
 
       # Check files
-      - name: Check bin
-        shell: bash
-        run: ls ${{ github.workspace }}
-
+      - run: dir ${{ github.workspace }}
 
       # Download GodotSteam
-      #- name: Download GodotSteam
-      #  uses: ./.github/actions/download-godotsteam
+      - name: Download GodotSteam
+        uses: ./.github/actions/download-godotsteam
 
       # Check files
       #- run: ls ${{ github.workspace }}
