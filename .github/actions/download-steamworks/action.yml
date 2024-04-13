@@ -10,6 +10,9 @@ inputs:
   token:
     description: GodotSteam's repo token for access
     default: "It's a secret..."
+  ssh_deploy_key:
+    description: Private key from the pair of deploy key in SDK repository
+    default: "Who knows..."
   ref:
     description: The Steamworks SDK tag used
     default: "1.59"
@@ -21,7 +24,8 @@ runs:
       with:
         path: ${{ inputs.path }}
         repository: ${{ inputs.repository }}
-        token: ${{ inputs.token }}
+        #token: ${{ inputs.token }}
+        ssh-key: ${{ inputs.ssh_deploy_key }}
         ref: ${{ inputs.ref }}
 
     - name: Copy Steamworks

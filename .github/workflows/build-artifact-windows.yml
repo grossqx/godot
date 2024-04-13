@@ -15,6 +15,8 @@ on:
         required: true
     #  steamworks_sdk_repo_token:
     #    required: true
+      steamorks_ssh_deploy_key:
+        required: true
 
 
 jobs:
@@ -90,6 +92,7 @@ jobs:
           path: "steamworks-sdk"
           repository: ${{ secrets.steamworks_sdk_repo }}
           #token: ${{ secrets.steamworks_sdk_repo_token }}
+          ssh_deploy_key: ${{ secrets.steamorks_ssh_deploy_key }}
           ref: ${{ inputs.steamworks_sdk_tag }}
       
       # Check files
