@@ -40,10 +40,12 @@ runs:
     - name: Checking encryption option
       shell: bash
       run: |
-        if [[ ${{ inputs.godot_encryption_key  != '' }} ]]; then
-          echo "Building encrypted binary"
+        if [[ ${{ inputs.godot_encryption_key != '' }} ]]; then
+          echo "Building encrypted binary ${{ inputs.godot_encryption_key}}"
+          export SCRIPT_AES256_ENCRYPTION_KEY="${{ inputs.godot_encryption_key}}"
         else
-          echo "Building binary without encryption"
+          echo "Building binary without encryption "${{ inputs.godot_encryption_key}}"
+          unset SCRIPT_AES256_ENCRYPTION_KEY
         fi
     
     - name: SCONS Build
@@ -52,7 +54,6 @@ runs:
           SCONSFLAGS: ${{ inputs.sconsflags }}
           SCONS_CACHE: ${{ inputs.scons-cache }}
           SCONS_CACHE_LIMIT: ${{ inputs.scons-cache-limit }}
-          SCRIPT_AES256_ENCRYPTION_KEY: ${{ inputs.godot_encryption_key}}
       run: |
         echo "Building with flags:" ${{ env.SCONSFLAGS }}
         if [[ ${{ inputs.buildroot  != '' }} ]]; then
