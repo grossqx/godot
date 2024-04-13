@@ -66,21 +66,17 @@ jobs:
       # Check files
       - run: dir ${{ github.workspace }}
 
-
-      # Download Godot to start
-      #- name: Download Godot
-      #  uses: ./.github/actions/download-godot
-      #  with:
-      #    version: ${{ inputs.godot_tag }}
-
       # Preempt the missing bin folder
-      #- name: Preempt missing Bin Folder
-      #  shell: bash
-      #  run: |
-      #    mkdir ./bin/
+      - name: Preempt missing Bin Folder
+        shell: bash
+        run: |
+          mkdir ./bin/
 
       # Check files
-      #- run: ls ${{ github.workspace }}
+      - name: Check bin
+        shell: bash
+        run: ls ${{ github.workspace }}
+
 
       # Download GodotSteam
       #- name: Download GodotSteam
