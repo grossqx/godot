@@ -4,7 +4,8 @@ run-name: Testing out GitHub Actions 🚀
 
 on:
   push:
-    branches: test-action
+    branches:
+      - 'testing-actions'
   workflow_dispatch:
     inputs:
       steamworks_sdk_tag:
