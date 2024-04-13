@@ -58,13 +58,13 @@ jobs:
 
     steps:
       # Check files
-      - run: ls ${{ github.workspace }}
+      - run: dir ${{ github.workspace }}
 
-      #- name: Check out Godot's fork repository code
-      #- uses: actions/checkout@v4
+      - name: Check out Godot's fork repository code
+        uses: actions/checkout@v4
 
       # Check files
-      #- run: ls ${{ github.workspace }}
+      - run: dir ${{ github.workspace }}
 
 
       # Download Godot to start

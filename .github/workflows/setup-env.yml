@@ -52,4 +52,4 @@ jobs:
           echo "godot_version=${gv}" >> $GITHUB_OUTPUT
       
       - name: Dump setup-env outputs
-        run: echo $GITHUB_OUTPUT
+        run: cat $GITHUB_OUTPUT
