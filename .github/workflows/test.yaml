@@ -32,6 +32,7 @@ jobs:
       godot_tag: ${{ inputs.godot_tag }}
       godotsteam_version: ${{ inputs.godotsteam_version }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+  
   build-windows:
     needs: [env-setup]
     uses: ./.github/workflows/build-artifact-windows.yml
@@ -43,3 +44,13 @@ jobs:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
       steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
     #  steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
+      godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
+
+  create-windows64-bundle:
+    needs: [env-setup, build-windows]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: windows64
+      platform: Windows64
+      zip_prefix: win64
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}

@@ -17,6 +17,8 @@ on:
     #    required: true
       steamorks_ssh_deploy_key:
         required: true
+      godot_encryption_key:
+        required : false
 
 
 jobs:
@@ -59,14 +61,8 @@ jobs:
 
 
     steps:
-      # Check files
-      - run: dir ${{ github.workspace }}
-
       - name: Check out Godot's fork repository code
         uses: actions/checkout@v4
-
-      # Check files
-      - run: dir ${{ github.workspace }}
 
       # Preempt the missing bin folder
       - name: Preempt missing Bin Folder
@@ -122,7 +118,6 @@ jobs:
       - name: Setup Python and SCONS
         uses: ./.github/actions/setup-dependencies
 
-
       # Compiling editor
       - name: ${{ matrix.bits }}-bit Editor Compilation
         uses: ./.github/actions/build-godot
@@ -133,6 +128,7 @@ jobs:
           binary: ${{ matrix.editor-name }}
           export: ${{ matrix.editor-name-new }}
 
+      # Uploading editor artifact
       - name: Upload ${{ matrix.bits }}-bit Editor
         uses: ./.github/actions/upload-artifact
         with:
@@ -146,11 +142,8 @@ jobs:
         shell: bash
         run: |
           rm -rf bin
-      
-      # Check files
-      - run: dir ${{ github.workspace }}/bin
 
-      # Compiling templates
+      # Compiling Debug Template
       - name: ${{ matrix.bits }}-bit Debug Template Compilation (target=template_debug)
         uses: ./.github/actions/build-godot
         with:
@@ -159,13 +152,17 @@ jobs:
           target: template_debug
           binary: ${{ matrix.debug-name }}
           export: ${{ matrix.debug-name-new }}
+        secrets:
+          godot_encryption_key: ${{ secrets.godot_encryption_key }}
 
+      # Uploading Debug Template artifact
       - name: Upload ${{ matrix.bits }}-bit Debug Template
         uses: ./.github/actions/upload-artifact
         with:
           name: ${{ matrix.cache-name }}-debug-template
           path: ./bin/${{ matrix.debug-name-new }}
 
+      # Compiling Release Template
       - name: ${{ matrix.bits }}-bit Release Template Compilation (target=template_release)
         uses: ./.github/actions/build-godot
         with:
@@ -174,7 +171,10 @@ jobs:
           target: template_release
           binary: ${{ matrix.release-name }}
           export: ${{ matrix.release-name-new }}
-
+        secrets:
+          godot_encryption_key: ${{ secrets.godot_encryption_key }}
+      
+      # Uploading Release Template artifact
       - name: Upload ${{ matrix.bits }}-bit Release Template
         uses: ./.github/actions/upload-artifact
         with:
