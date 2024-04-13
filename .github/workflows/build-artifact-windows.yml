@@ -10,9 +10,9 @@ on:
       steamworks_sdk_tag:
         required: true
         type: string
-    #secrets:
-    #  steamworks_sdk_repo:
-    #    required: true
+    secrets:
+      steamworks_sdk_repo:
+        required: true
     #  steamworks_sdk_repo_token:
     #    required: true
 
@@ -83,8 +83,113 @@ jobs:
       - name: Download GodotSteam
         uses: ./.github/actions/download-godotsteam-multiplayer-peer
 
+      # Download Steamworks SDK
+      - name: Download Steamworks SDK
+        uses: ./.github/actions/download-steamworks
+        with:
+          path: "steamworks-sdk"
+          repository: ${{ secrets.steamworks_sdk_repo }}
+          #token: ${{ secrets.steamworks_sdk_repo_token }}
+          ref: ${{ inputs.steamworks_sdk_tag }}
+      
       # Check files
       - run: dir ${{ github.workspace }}
 
       # Check files
       - run: dir ${{ github.workspace }}/modules
+
+      # Check files
+      - run: dir ${{ github.workspace }}/modules/godotsteam/sdk
+
+      # Check files
+      - run: dir ${{ github.workspace }}/modules/godotsteam/sdk/public
+
+      # Check files
+      - run: dir ${{ github.workspace }}/modules/godotsteam/sdk/redistributable_bin
+
+      # Get that cache money
+      - name: Setup Build Cache
+        uses: ./.github/actions/setup-cache
+        with:
+          cache-name: ${{ matrix.cache-name }}
+          godot-base: inputs.godot_tag
+        continue-on-error: true
+
+      # Setup Python and SCONS
+      - name: Setup Python and SCONS
+        uses: ./.github/actions/setup-dependencies
+
+
+      # Compiling editor
+      - name: ${{ matrix.bits }}-bit Editor Compilation
+        uses: ./.github/actions/build-godot
+        with:
+          sconsflags: arch=${{ matrix.bits }}
+          platform: windows
+          target: editor
+          binary: ${{ matrix.editor-name }}
+          export: ${{ matrix.editor-name-new }}
+
+      - name: Upload ${{ matrix.bits }}-bit Editor
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: ${{ matrix.cache-name }}-editor
+          path: ./bin/${{ matrix.editor-name-new }}
+
+      # Check files
+      - run: dir ${{ github.workspace }}/bin
+
+      - name: Clear bin
+        shell: bash
+        run: |
+          rm -rf bin
+      
+      # Check files
+      - run: dir ${{ github.workspace }}/bin
+
+      # Compiling templates
+      - name: ${{ matrix.bits }}-bit Debug Template Compilation (target=template_debug)
+        uses: ./.github/actions/build-godot
+        with:
+          sconsflags: arch=${{ matrix.bits }}
+          platform: windows
+          target: template_debug
+          binary: ${{ matrix.debug-name }}
+          export: ${{ matrix.debug-name-new }}
+
+      - name: Upload ${{ matrix.bits }}-bit Debug Template
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: ${{ matrix.cache-name }}-debug-template
+          path: ./bin/${{ matrix.debug-name-new }}
+
+      - name: ${{ matrix.bits }}-bit Release Template Compilation (target=template_release)
+        uses: ./.github/actions/build-godot
+        with:
+          sconsflags: arch=${{ matrix.bits }} debug_symbols=no
+          platform: windows
+          target: template_release
+          binary: ${{ matrix.release-name }}
+          export: ${{ matrix.release-name-new }}
+
+      - name: Upload ${{ matrix.bits }}-bit Release Template
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: ${{ matrix.cache-name }}-release-template
+          path: ./bin/${{ matrix.release-name-new }}
+
+      # Check files
+      - run: dir ${{ github.workspace }}/bin
+
+      - name: Clear bin
+        shell: bash
+        run: |
+          rm -rf bin
+
+      # Upload the Steam redistributable for packaging
+      - name: Upload Windows ${{ matrix.steam-redist-bits}}-bit Steam File
+        uses: ./.github/actions/upload-steam-redistributable
+        with:
+          name: windows${{ matrix.steam-redist-bits }}-steam
+          path: ${{ matrix.steam-redist-bin }}
+          redist: ${{ matrix.steam-redist }}
