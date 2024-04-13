@@ -152,7 +152,6 @@ jobs:
           target: template_debug
           binary: ${{ matrix.debug-name }}
           export: ${{ matrix.debug-name-new }}
-        secrets:
           godot_encryption_key: ${{ secrets.godot_encryption_key }}
 
       # Uploading Debug Template artifact
@@ -171,7 +170,6 @@ jobs:
           target: template_release
           binary: ${{ matrix.release-name }}
           export: ${{ matrix.release-name-new }}
-        secrets:
           godot_encryption_key: ${{ secrets.godot_encryption_key }}
       
       # Uploading Release Template artifact

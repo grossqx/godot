@@ -29,7 +29,6 @@ inputs:
     # actions/cache has 10 GiB limit, and GitHub runners have a 14 GiB disk.
     # Limit to 7 GiB to avoid having the extracted cache fill the disk.
     default: 7168
-secrets:
   godot_encryption_key:
     description: Encryption key to encrypt the binary
     default: ''
@@ -41,7 +40,7 @@ runs:
     - name: Checking encryption option
       shell: bash
       run: |
-        if [[ ${{ secrets.godot_encryption_key  != '' }} ]]; then
+        if [[ ${{ inputs.godot_encryption_key  != '' }} ]]; then
           echo "Building encrypted binary"
         else
           echo "Building binary without encryption"
@@ -52,7 +51,7 @@ runs:
           SCONSFLAGS: ${{ inputs.sconsflags }}
           SCONS_CACHE: ${{ inputs.scons-cache }}
           SCONS_CACHE_LIMIT: ${{ inputs.scons-cache-limit }}
-          SCRIPT_AES256_ENCRYPTION_KEY: ${{ secrets.godot_encryption_key}}
+          SCRIPT_AES256_ENCRYPTION_KEY: ${{ inputs.godot_encryption_key}}
       run: |
         echo "Building with flags:" ${{ env.SCONSFLAGS }}
         if [[ ${{ inputs.buildroot  != '' }} ]]; then
