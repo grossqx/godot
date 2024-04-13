@@ -52,6 +52,4 @@ jobs:
           echo "godot_version=${gv}" >> $GITHUB_OUTPUT
       
       - name: Dump setup-env outputs
-        env:
-          ENV_OUTPUTS_DUMP: ${{ toJson(jobs.env-setup.outputs) }}
-        run: echo "$ENV_OUTPUTS_DUMP"
+        run: echo $GITHUB_OUTPUT
