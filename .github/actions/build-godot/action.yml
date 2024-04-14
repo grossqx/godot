@@ -42,10 +42,8 @@ runs:
       run: |
         if [[ "${{ inputs.godot_encryption_key }}" != '' ]]; then
           echo "Building encrypted binary with key"
-          export SCRIPT_AES256_ENCRYPTION_KEY="${{ inputs.godot_encryption_key }}"
         else
           echo "Building binary without encryption"
-          unset SCRIPT_AES256_ENCRYPTION_KEY
         fi
 
     - name: SCONS Build
