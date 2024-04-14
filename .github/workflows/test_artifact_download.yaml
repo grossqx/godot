@@ -1,0 +1,56 @@
+name: Test artifact download
+run-name: Test artifact download
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_name:
+        description: Will be displayed in console when launching builds and in the editor, next to the version.
+        required: false
+        type: string
+        default: satellite_build
+      # Used to pick the branch and version of SDK
+      steamworks_sdk_tag:
+        description: 'Steamworks SDK Github branch:'
+        required: true
+        type: string
+        default: '1.59'
+      # Used for file names
+      godot_tag:
+        description: 'Used for file names - Godot Github tag:'
+        required: true
+        type: string
+        default: '4.2.1-stable'
+      # Used for file names
+      godotsteam_version:
+        description: 'Used for file names - GodotSteam version number:'
+        required: true
+        type: string
+        default: '4.6.1'
+
+
+jobs:
+  env-setup:
+    uses: ./.github/workflows/setup-env.yml
+    with:
+      godot_tag: ${{ inputs.godot_tag }}
+      godotsteam_version: ${{ inputs.godotsteam_version }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+
+  # Bundle all templates
+
+  create-template-bundle:
+    needs: [env-setup]
+    uses: ./.github/workflows/create-bundle-templates.yml
+    with:
+      is_mono: false
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Bundle everything
+
+  create-everything-bundle:
+    needs: [env-setup]
+    uses: ./.github/workflows/create-bundle-everything.yml
+    with:
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}

@@ -1,5 +1,5 @@
 name: Build Godot with GodotSteam and SteamMultiplayerPeer
-run-name: Testing Linux build for the first time
+run-name: Build Godot with GS and SMP and package all binaries
 
 
 on:
@@ -111,4 +111,12 @@ jobs:
     uses: ./.github/workflows/create-bundle-templates.yml
     with:
       is_mono: false
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Bundle everything
+
+  create-everything-bundle:
+    needs: [env-setup, build-linux, build-windows]
+    uses: ./.github/workflows/create-bundle-everything.yml
+    with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
