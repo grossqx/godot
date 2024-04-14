@@ -44,12 +44,14 @@ jobs:
     needs: [env-setup]
     uses: ./.github/workflows/build-artifact-linux.yml
     with:
+      build_name: ${{ inputs.build_name }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
     secrets:
-      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_SDK_REPO }}
-      steamworks_sdk_repo_token: ${{ secrets.STEAMWORKS_SDK_REPO_TOKEN }}
+      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
+      steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
+      godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
 
   create-linux64-bundle:
     needs: [env-setup, build-linux]
@@ -75,6 +77,7 @@ jobs:
   #  needs: [env-setup]
   #  uses: ./.github/workflows/build-artifact-windows.yml
   #  with:
+  #    build_name: ${{ inputs.build_name }}
   #    godot_tag: ${{ inputs.godot_tag }}
   #    godot_version: ${{ needs.env-setup.outputs.godot_version }}
   #    steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
