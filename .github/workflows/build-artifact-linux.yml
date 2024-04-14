@@ -48,18 +48,18 @@ jobs:
             steam-redist-bin: linux64/
             steam-redist-bits: 64
           
-          - name: Editor and Templates (32-bit)
-            bits: x86_32
-            cache-name: linux32
-            editor-name: godot.linuxbsd.editor.x86_32
-            editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.linux.x86_32
-            debug-name: godot.linuxbsd.template_debug.x86_32
-            debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.linux.x86_32
-            release-name: godot.linuxbsd.template_release.x86_32
-            release-name-new: godotsteam.${{ inputs.godot_version }}.template.linux.x86_32
-            steam-redist: libsteam_api.so
-            steam-redist-bin: linux32/
-            steam-redist-bits: 64
+          #- name: Editor and Templates (32-bit)
+          #  bits: x86_32
+          #  cache-name: linux32
+          #  editor-name: godot.linuxbsd.editor.x86_32
+          #  editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.linux.x86_32
+          #  debug-name: godot.linuxbsd.template_debug.x86_32
+          #  debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.linux.x86_32
+          #  release-name: godot.linuxbsd.template_release.x86_32
+          #  release-name-new: godotsteam.${{ inputs.godot_version }}.template.linux.x86_32
+          #  steam-redist: libsteam_api.so
+          #  steam-redist-bin: linux32/
+          #  steam-redist-bits: 64
 
 
     steps:
