@@ -13,8 +13,6 @@ on:
     secrets:
       steamworks_sdk_repo:
         required: true
-    #  steamworks_sdk_repo_token:
-    #    required: true
       steamorks_ssh_deploy_key:
         required: true
       godot_encryption_key:
@@ -46,18 +44,18 @@ jobs:
             steam-redist-bin: win64/
             steam-redist-bits: 64
 
-          #- name: Editor and Templates (32-bit)
-          #  bits: x86_32
-          #  cache-name: windows32
-          #  editor-name: godot.windows.editor.x86_32.exe
-          #  editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.windows.32.exe
-          #  debug-name: godot.windows.template_debug.x86_32.exe
-          #  debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.windows.32.exe
-          #  release-name: godot.windows.template_release.x86_32.exe
-          #  release-name-new: godotsteam.${{ inputs.godot_version }}.template.windows.32.exe
-          #  steam-redist: steam_api.dll
-          #  steam-redist-bin: ""
-          #  steam-redist-bits: 32
+          - name: Editor and Templates (32-bit)
+            bits: x86_32
+            cache-name: windows32
+            editor-name: godot.windows.editor.x86_32.exe
+            editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.windows.32.exe
+            debug-name: godot.windows.template_debug.x86_32.exe
+            debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.windows.32.exe
+            release-name: godot.windows.template_release.x86_32.exe
+            release-name-new: godotsteam.${{ inputs.godot_version }}.template.windows.32.exe
+            steam-redist: steam_api.dll
+            steam-redist-bin: ""
+            steam-redist-bits: 32
 
 
     steps:
@@ -84,7 +82,6 @@ jobs:
         with:
           path: "steamworks-sdk"
           repository: ${{ secrets.steamworks_sdk_repo }}
-          #token: ${{ secrets.steamworks_sdk_repo_token }}
           ssh_deploy_key: ${{ secrets.steamorks_ssh_deploy_key }}
           ref: ${{ inputs.steamworks_sdk_tag }}
       
@@ -116,29 +113,26 @@ jobs:
         uses: ./.github/actions/setup-dependencies
 
       # Compiling editor
-      #- name: ${{ matrix.bits }}-bit Editor Compilation
-      #  uses: ./.github/actions/build-godot
-      #  with:
-      #    sconsflags: arch=${{ matrix.bits }}
-      #    platform: windows
-      #    target: editor
-      #    binary: ${{ matrix.editor-name }}
-      #    export: ${{ matrix.editor-name-new }}
+      - name: ${{ matrix.bits }}-bit Editor Compilation
+        uses: ./.github/actions/build-godot
+        with:
+          sconsflags: arch=${{ matrix.bits }}
+          platform: windows
+          target: editor
+          binary: ${{ matrix.editor-name }}
+          export: ${{ matrix.editor-name-new }}
 
       # Uploading editor artifact
-      #- name: Upload ${{ matrix.bits }}-bit Editor
-      #  uses: ./.github/actions/upload-artifact
-      #  with:
-      #    name: ${{ matrix.cache-name }}-editor
-      #    path: ./bin/${{ matrix.editor-name-new }}
+      - name: Upload ${{ matrix.bits }}-bit Editor
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: ${{ matrix.cache-name }}-editor
+          path: ./bin/${{ matrix.editor-name-new }}
 
-      # Check files
-      #- run: dir ${{ github.workspace }}/bin
-
-      #- name: Clear bin
-      #  shell: bash
-      #  run: |
-      #    rm -rf bin
+      - name: Clear bin
+        shell: bash
+        run: |
+          rm -rf bin
 
       # Compiling Debug Template
       - name: ${{ matrix.bits }}-bit Debug Template Compilation (target=template_debug)
@@ -159,22 +153,22 @@ jobs:
           path: ./bin/${{ matrix.debug-name-new }}
 
       # Compiling Release Template
-      #- name: ${{ matrix.bits }}-bit Release Template Compilation (target=template_release)
-      #  uses: ./.github/actions/build-godot
-      #  with:
-      #    sconsflags: arch=${{ matrix.bits }} debug_symbols=no
-      #    platform: windows
-      #    target: template_release
-      #    binary: ${{ matrix.release-name }}
-      #    export: ${{ matrix.release-name-new }}
-      #    godot_encryption_key: ${{ secrets.godot_encryption_key }}
+      - name: ${{ matrix.bits }}-bit Release Template Compilation (target=template_release)
+        uses: ./.github/actions/build-godot
+        with:
+          sconsflags: arch=${{ matrix.bits }} debug_symbols=no
+          platform: windows
+          target: template_release
+          binary: ${{ matrix.release-name }}
+          export: ${{ matrix.release-name-new }}
+          godot_encryption_key: ${{ secrets.godot_encryption_key }}
       
       # Uploading Release Template artifact
-      #- name: Upload ${{ matrix.bits }}-bit Release Template
-      #  uses: ./.github/actions/upload-artifact
-      #  with:
-      #    name: ${{ matrix.cache-name }}-release-template
-      #    path: ./bin/${{ matrix.release-name-new }}
+      - name: Upload ${{ matrix.bits }}-bit Release Template
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: ${{ matrix.cache-name }}-release-template
+          path: ./bin/${{ matrix.release-name-new }}
 
       # Check files
       - run: dir ${{ github.workspace }}/bin
@@ -185,9 +179,9 @@ jobs:
           rm -rf bin
 
       # Upload the Steam redistributable for packaging
-      #- name: Upload Windows ${{ matrix.steam-redist-bits}}-bit Steam File
-      #  uses: ./.github/actions/upload-steam-redistributable
-      #  with:
-      #    name: windows${{ matrix.steam-redist-bits }}-steam
-      #    path: ${{ matrix.steam-redist-bin }}
-      #    redist: ${{ matrix.steam-redist }}
+      - name: Upload Windows ${{ matrix.steam-redist-bits}}-bit Steam File
+        uses: ./.github/actions/upload-steam-redistributable
+        with:
+          name: windows${{ matrix.steam-redist-bits }}-steam
+          path: ${{ matrix.steam-redist-bin }}
+          redist: ${{ matrix.steam-redist }}
