@@ -133,11 +133,14 @@ jobs:
       - name: Create Full Bundle
         if: always()
         run: |
-          zip -j godotsteam-${{ env.ZIP_TAG }}-templates.zip files/*
+          zip -j godotsteam-${{ inputs.zip_tag }}-everything.zip files/*
       
+      # Check files
+      - run: ls ${{ github.workspace }}
+
       - name: Upload Full Bundle Artifact
         if: always()
         uses: ./.github/actions/upload-artifact
         with:
-          name: godotsteam-${{ inputs.zip_tag }}-templates.zip
-          path: godotsteam-${{ inputs.zip_tag }}-templates.zip
+          name: godotsteam-${{ inputs.zip_tag }}-everything.zip
+          path: godotsteam-${{ inputs.zip_tag }}-everything.zip
