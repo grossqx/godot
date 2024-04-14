@@ -110,7 +110,6 @@ jobs:
     needs: [env-setup, build-linux, build-windows]
     uses: ./.github/workflows/create-bundle-templates.yml
     with:
-      is_mono: false
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
 
   # Bundle everything
