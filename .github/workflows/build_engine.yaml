@@ -5,6 +5,11 @@ run-name: Testing Linux build for the first time
 on:
   workflow_dispatch:
     inputs:
+      build_name:
+        description: Will be displayed in console when launching builds and in the editor, next to the version.
+        required: false
+        type: string
+        default: satellite_build
       # Used to pick the branch and version of SDK
       steamworks_sdk_tag:
         description: 'Steamworks SDK Github branch:'

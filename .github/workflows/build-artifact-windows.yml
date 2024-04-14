@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      build_name:
+        required: false
+        type: string
+        default: custom_build
       godot_tag:
         required: true
         type: string
@@ -116,6 +120,7 @@ jobs:
       - name: ${{ matrix.bits }}-bit Editor Compilation
         uses: ./.github/actions/build-godot
         with:
+          build_name: ${{ inputs.build_name }}
           sconsflags: arch=${{ matrix.bits }}
           platform: windows
           target: editor
@@ -138,6 +143,7 @@ jobs:
       - name: ${{ matrix.bits }}-bit Debug Template Compilation (target=template_debug)
         uses: ./.github/actions/build-godot
         with:
+          build_name: ${{ inputs.build_name }}
           sconsflags: arch=${{ matrix.bits }}
           platform: windows
           target: template_debug
@@ -156,6 +162,7 @@ jobs:
       - name: ${{ matrix.bits }}-bit Release Template Compilation (target=template_release)
         uses: ./.github/actions/build-godot
         with:
+          build_name: ${{ inputs.build_name }}
           sconsflags: arch=${{ matrix.bits }} debug_symbols=no
           platform: windows
           target: template_release
