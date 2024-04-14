@@ -134,6 +134,7 @@ jobs:
           target: editor
           binary: ${{ matrix.editor-name }}
           export: ${{ matrix.editor-name-new }}
+          godot_encryption_key: ${{ secrets.godot_encryption_key }}
 
       - name: Upload Editor
         uses: ./.github/actions/upload-artifact
