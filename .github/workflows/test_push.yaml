@@ -49,4 +49,4 @@ jobs:
       - name: Ckeck key
         shell: bash
         run: |
-          echo $SCRIPT_AES256_ENCRYPTION_KEY
+          echo ${{ secrets.GODOT_ENCRYPTION_KEY }}
