@@ -54,6 +54,7 @@ runs:
           SCONSFLAGS: ${{ inputs.sconsflags }}
           SCONS_CACHE: ${{ inputs.scons-cache }}
           SCONS_CACHE_LIMIT: ${{ inputs.scons-cache-limit }}
+          SCRIPT_AES256_ENCRYPTION_KEY: ${{ inputs.godot_encryption_key }}
       run: |
         echo "Building with flags:" ${{ env.SCONSFLAGS }}
         if [[ ${{ inputs.buildroot  != '' }} ]]; then
