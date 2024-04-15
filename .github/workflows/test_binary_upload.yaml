@@ -1,5 +1,5 @@
-name: Testing file upload to binary repo
-run-name: Testing file upload to binary ${{ github.event.ref }}
+name: Uploading binaries to repository
+run-name: Uploading binaries built from ${{ github.event.ref }}
 on:
   # Testing
   workflow_dispatch:
@@ -45,35 +45,136 @@ on:
 
 jobs:
   upload_to_repo:
+    name: Upload result binaries to the repository
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4      
+
+      # Windows binaries and Steam redistributables
+      - name: Download Windows 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-editor
+          path: files
+          
+      - name: Download Windows 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-editor
+          path: files
+      
+      - name: Download Windows 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-release-template
+          path: files
+
+      - name: Download Windows 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-release-template
+          path: files
+
+      - name: Download Windows 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-debug-template
+          path: files
+
+      - name: Download Windows 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-debug-template
+          path: files
+
+      - name: Download Windows 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-steam
+          path: files
+
+      - name: Download Windows 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-steam
+          path: files
+
+      # Linux binaries and Steam redistributable
+      - name: Download Linux 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-editor
+          path: files
+      
+      - name: Download Linux 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-editor
+          path: files
+      
+      - name: Download Linux 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-release-template
+          path: files
+
+      - name: Download Linux 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-release-template
+          path: files
+
+      - name: Download Linux 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-debug-template
+          path: files
+
+      - name: Download Linux 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-debug-template
+          path: files
+
+      - name: Download Linux 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-steam
+          path: files
+
+      - name: Download Linux 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-steam
+          path: files
+
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      # Check files
+      - run: ls ${{ github.workspace }}/files
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
-
-      - name: Check out repository
-        uses: actions/checkout@v4
 
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.7.2
@@ -81,10 +182,10 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
           #SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
-          source-directory: doc
+          source-directory: files
           destination-github-username: ${{ inputs.destination-github-username }}
           destination-repository-name: ${{ inputs.destination-repository-name }}
           target-branch: ${{ inputs.target-branch }}
           create-target-branch-if-needed: true
-          commit-message: test upload binaries run at ${{ github.repository }}/${{ github.ref }}
+          commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
           #target-directory: [optional]
