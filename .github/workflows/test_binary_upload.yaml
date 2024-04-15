@@ -26,12 +26,15 @@ on:
       destination-repository-name:
         description: Name of the repository to push into
         default: repo-name
+        type: string
       destination-github-username:
         description: Username of destination repository owner
         default: repo-owner
+        type: string
       target-branch:
         description: Branch to overwrite with source directory
         default: main
+        type: string
       zip_tag:
         required: true
         type: string
