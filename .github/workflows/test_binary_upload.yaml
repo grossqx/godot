@@ -6,10 +6,10 @@ on:
     inputs:
       destination-repository-name:
         description: Name of the repository to push into
-        default: ${{ github.event.repository.name }}
+        default: repo-name
       destination-github-username:
         description: Username of destination repository owner
-        default: ${{ github.repository_owner }}
+        default: repo-owner
       target-branch:
         description: Branch to overwrite with source directory
         default: main
@@ -25,10 +25,10 @@ on:
     inputs:
       destination-repository-name:
         description: Name of the repository to push into
-        default: ${{ github.event.repository.name }}
+        default: repo-name
       destination-github-username:
         description: Username of destination repository owner
-        default: ${{ github.repository_owner }}
+        default: repo-owner
       target-branch:
         description: Branch to overwrite with source directory
         default: main
