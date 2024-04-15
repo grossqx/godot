@@ -24,7 +24,6 @@ runs:
       with:
         path: ${{ inputs.path }}
         repository: ${{ inputs.repository }}
-        #token: ${{ inputs.token }}
         ssh-key: ${{ inputs.ssh_deploy_key }}
         ref: ${{ inputs.ref }}
 
