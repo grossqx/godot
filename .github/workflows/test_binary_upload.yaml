@@ -1,5 +1,5 @@
 name: Testing file upload to binary repo
-run-name: Testing file upload to binary ${{ repo github.event.ref }}
+run-name: Testing file upload to binary ${{ github.event.ref }}
 on:
   # Testing
   workflow_dispatch:
