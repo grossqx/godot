@@ -2,10 +2,6 @@ name: Context testing
 run-name: Context testing 🚀
 on:
   workflow_dispatch:
-    inputs:
-      godot_encryption_key:
-        description: Compile key testing
-        default: ''
 jobs:
   dump_contexts_to_log:
     runs-on: ubuntu-latest
@@ -34,19 +30,3 @@ jobs:
         env:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
-
-      - name: Checking encryption option
-        shell: bash
-        run: |
-          if [[ "${{ inputs.godot_encryption_key }}" != '' ]]; then
-            echo "Building encrypted binary with key: ${{ inputs.godot_encryption_key }}"
-            export SCRIPT_AES256_ENCRYPTION_KEY="${{ inputs.godot_encryption_key }}"
-          else
-            echo "Building binary without encryption"
-            unset SCRIPT_AES256_ENCRYPTION_KEY
-          fi
-      
-      - name: Ckeck key
-        shell: bash
-        run: |
-          echo ${{ secrets.GODOT_ENCRYPTION_KEY }}
