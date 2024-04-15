@@ -1,0 +1,87 @@
+name: Testing file upload to binary repo
+run-name: Testing file upload to binary ${{ repo github.event.ref }}
+on:
+  # Testing
+  workflow_dispatch:
+    inputs:
+      destination-repository-name:
+        description: Name of the repository to push into
+        default: ${{ github.event.repository.name }}
+      destination-github-username:
+        description: Username of destination repository owner
+        default: ${{ github.repository_owner }}
+      target-branch:
+        description: Branch to overwrite with source directory
+        default: main
+      zip_tag:
+        required: true
+        type: string
+        default: test-tag
+    secrets:
+      repo-deploy-key:
+        description: SSH Deploy Key to the target repository
+  # Called by main workflow
+  workflow_call:
+    inputs:
+      destination-repository-name:
+        description: Name of the repository to push into
+        default: ${{ github.event.repository.name }}
+      destination-github-username:
+        description: Username of destination repository owner
+        default: ${{ github.repository_owner }}
+      target-branch:
+        description: Branch to overwrite with source directory
+        default: main
+      zip_tag:
+        required: true
+        type: string
+    secrets:
+      repo-deploy-key:
+        description: SSH Deploy Key to the target repository
+
+
+jobs:
+  upload_to_repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        env:
+          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        env:
+          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        run: echo "$MATRIX_CONTEXT"
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Push directory to another repository
+        uses: cpina/github-action-push-to-another-repository@v1.7.2
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
+          #SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
+        with:
+          source-directory: doc
+          destination-github-username: ${{ inputs.destination-github-username }}
+          destination-repository-name: ${{ inputs.destination-repository-name }}
+          target-branch: ${{ inputs.target-branch }}
+          create-target-branch-if-needed: true
+          commit-message: test upload binaries run at ${{ github.repository }}/${{ github.ref }}
+          #target-directory: [optional]
