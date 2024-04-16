@@ -114,8 +114,20 @@ jobs:
 
   # Bundle everything
 
-  create-everything-bundle:
+  #create-everything-bundle:
+  #  needs: [env-setup, build-linux, build-windows]
+  #  uses: ./.github/workflows/create-bundle-everything.yml
+  #  with:
+  #    zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Bundle everything. Create artifact and push binaries to repository
+
+  commit-binaries-to-repo:
     needs: [env-setup, build-linux, build-windows]
     uses: ./.github/workflows/create-bundle-everything.yml
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+      destination-github-username: $ {{ github.repository_owner }}
+      destination-repository-name: $ {{ secrets.GODOT_BIN_REPO_NAME}}
+    secrets:
+      repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
