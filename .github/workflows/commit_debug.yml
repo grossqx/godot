@@ -57,7 +57,7 @@ jobs:
 
   commit-binaries-to-repo:
     #needs: [env-setup, build-linux, build-windows]
-    needs: [env-setup, build-linux]
+    needs: [env-setup, create_dummy]
     uses: ./.github/workflows/commit-binaries-to-repo.yml
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
