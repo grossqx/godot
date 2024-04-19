@@ -1,3 +1,12 @@
+# Fork info
+
+This is a fork dedicated to building Godot binaries for the needs of a specific project. 
+Templates have a built in encryption code, so downloaded bins will not work with unencrypted packages.
+
+[![Build Godot with GodotSteam and SteamMultiplayerPeer](https://github.com/grossqx/godot/actions/workflows/build_engine_v2.yml/badge.svg)](https://github.com/grossqx/godot/actions/workflows/build_engine_v2.yml)
+
+## 2D and 3D cross-platform game engine
+
 # Godot Engine
 
 <p align="center">
