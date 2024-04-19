@@ -1,0 +1,6 @@
+©2024 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.
+
+	The Steam logo may not be used in any manner that might imply that any non-Valve materials are sponsored, endorsed, licensed by, or affiliated with Valve.
+	The Steam trademarks may not be displayed as primary or prominent features on any non-Valve materials.
+
+Therefore, splash image ./splash.png containing the simplified Steam logo can not be used in projects and is intended for internal use only.
