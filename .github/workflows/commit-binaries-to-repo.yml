@@ -167,7 +167,8 @@ jobs:
           path: godot-${{ inputs.zip_tag }}-all-bin.zip
 
       - name: Push directory to another repository
-        uses: cpina/github-action-push-to-another-repository@v1.7.2
+        #uses: cpina/github-action-push-to-another-repository@v1.7.2
+        uses: grossqx/github-action-push-to-another-repository@feature-keep_gitattributes
         env:
           SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
@@ -176,5 +177,6 @@ jobs:
           destination-repository-name: ${{ secrets.destination-repository-name }}
           target-branch: ${{ github.ref_name }}-${{ inputs.zip_tag }}
           create-target-branch-if-needed: true
+          keep-gitattributes: true
           commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
           #target-directory: [optional]
