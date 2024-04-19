@@ -1,0 +1,65 @@
+on:
+  workflow_call:
+    inputs:
+      build_name:
+        required: false
+        type: string
+        default: custom_build
+      godot_tag:
+        required: true
+        type: string
+      godot_version:
+        required: true
+        type: string
+      steamworks_sdk_tag:
+        required: true
+        type: string
+    secrets:
+      steamworks_sdk_repo:
+        required: true
+      steamorks_ssh_deploy_key:
+        required: true
+      godot_encryption_key:
+        required : false
+
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+
+    name: Linux ${{ matrix.name }}
+
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Editor and Templates (64-bit)
+            bits: x86_64
+            cache-name: linux64
+            editor-name: godot.linuxbsd.editor.x86_64
+            editor-name-new: godotsteam.${{ inputs.godot_version }}.editor.linux.x86_64
+            debug-name: godot.linuxbsd.template_debug.x86_64
+            debug-name-new: godotsteam.${{ inputs.godot_version }}.debug.template.linux.x86_64
+            release-name: godot.linuxbsd.template_release.x86_64
+            release-name-new: godotsteam.${{ inputs.godot_version }}.template.linux.x86_64
+            steam-redist: libsteam_api.so
+            steam-redist-bin: linux64/
+            steam-redist-bits: 64
+
+
+    steps:
+      - name: Check out Godot's fork repository code
+        uses: actions/checkout@v4
+
+      - name: Create zip of a Full Bundle
+        run: |
+          zip -r ./bin/linux32-debug.zip misc/
+
+      # Uploading Debug Template artifact
+      - name: Upload Debug Template
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: linux32-debug-template
+          path: ./bin/linux32-debug.zip
