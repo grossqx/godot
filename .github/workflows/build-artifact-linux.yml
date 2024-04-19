@@ -123,31 +123,31 @@ jobs:
         uses: ./.github/actions/setup-dependencies
 
       # Compiling editor
-      - name: Editor Compilation
-        uses: ./.github/actions/build-godot
-        with:
-          build_name: ${{ inputs.build_name }}
-          #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
-          #sconsflags: bits=64
-          sconsflags: arch=${{ matrix.bits }}
-          platform: linuxbsd
-          target: editor
-          binary: ${{ matrix.editor-name }}
-          export: ${{ matrix.editor-name-new }}
-          godot_encryption_key: ${{ secrets.godot_encryption_key }}
+      #- name: Editor Compilation
+      #  uses: ./.github/actions/build-godot
+      #  with:
+      #    build_name: ${{ inputs.build_name }}
+      #    #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
+      #    #sconsflags: bits=64
+      #    sconsflags: arch=${{ matrix.bits }}
+      #    platform: linuxbsd
+      #    target: editor
+      #    binary: ${{ matrix.editor-name }}
+      #    export: ${{ matrix.editor-name-new }}
+      #    godot_encryption_key: ${{ secrets.godot_encryption_key }}
 
-      - name: Upload Editor
-        uses: ./.github/actions/upload-artifact
-        with:
-          name: ${{ matrix.cache-name }}-editor
-          path: ./bin/${{ matrix.editor-name-new }}
+      #- name: Upload Editor
+      #  uses: ./.github/actions/upload-artifact
+      #  with:
+      #    name: ${{ matrix.cache-name }}-editor
+      #    path: ./bin/${{ matrix.editor-name-new }}
 
       # Check files
       - run: ls ${{ github.workspace }}/bin
 
-      - name: Clear bin
-        run: |
-          rm -rf bin
+      #- name: Clear bin
+      #  run: |
+      #    rm -rf bin
 
       # Compiling Debug Template
       - name: Debug Template Compilation (target=template_debug)
@@ -171,25 +171,25 @@ jobs:
           path: ./bin/${{ matrix.debug-name-new }}
 
       # Compiling Release Template
-      - name: Release Template Compilation (target=template_release)
-        uses: ./.github/actions/build-godot
-        with:
-          build_name: ${{ inputs.build_name }}
-          #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
-          #sconsflags: bits=64 debug_symbols=no
-          sconsflags: arch=${{ matrix.bits }} debug_symbols=no
-          platform: linuxbsd
-          target: template_release
-          binary: ${{ matrix.release-name }}
-          export: ${{ matrix.release-name-new }}
-          godot_encryption_key: ${{ secrets.godot_encryption_key }}
+      #- name: Release Template Compilation (target=template_release)
+      #  uses: ./.github/actions/build-godot
+      #  with:
+      #    build_name: ${{ inputs.build_name }}
+      #    #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
+      #    #sconsflags: bits=64 debug_symbols=no
+      #    sconsflags: arch=${{ matrix.bits }} debug_symbols=no
+      #    platform: linuxbsd
+      #    target: template_release
+      #    binary: ${{ matrix.release-name }}
+      #    export: ${{ matrix.release-name-new }}
+      #    godot_encryption_key: ${{ secrets.godot_encryption_key }}
       
       # Uploading Release Template artifact
-      - name: Upload Release Template
-        uses: ./.github/actions/upload-artifact
-        with:
-          name: ${{ matrix.cache-name }}-release-template
-          path: ./bin/${{ matrix.release-name-new }}
+      #- name: Upload Release Template
+      #  uses: ./.github/actions/upload-artifact
+      #  with:
+      #    name: ${{ matrix.cache-name }}-release-template
+      #    path: ./bin/${{ matrix.release-name-new }}
 
       # Check files
       - run: ls ${{ github.workspace }}/bin
