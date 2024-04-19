@@ -3,18 +3,14 @@ run-name: Uploading binaries built from ${{ github.event.ref }}
 on:
   workflow_call:
     inputs:
-      destination-repository-name:
-        description: Name of the repository to push into
-        default: repo-name
-        type: string
-      destination-github-username:
-        description: Username of destination repository owner
-        default: repo-owner
-        type: string
       zip_tag:
         required: true
         type: string
     secrets:
+      destination-github-username:
+        description: Username of destination repository owner
+      destination-repository-name:
+        description: Name of the repository to push into
       repo-deploy-key:
         description: SSH Deploy Key to the target repository
 
