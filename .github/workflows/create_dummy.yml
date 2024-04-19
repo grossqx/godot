@@ -55,11 +55,11 @@ jobs:
 
       - name: Create zip of a Full Bundle
         run: |
-          zip -r ./bin/linux32-debug.zip misc/
+          zip -r ./linux32-debug.zip misc/
 
       # Uploading Debug Template artifact
       - name: Upload Debug Template
         uses: ./.github/actions/upload-artifact
         with:
           name: linux32-debug-template
-          path: ./bin/linux32-debug.zip
+          path: ./linux32-debug.zip
