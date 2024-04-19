@@ -119,7 +119,7 @@ jobs:
     uses: ./.github/workflows/commit-binaries-to-repo.yml
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
-      destination-github-username: $ {{ github.repository_owner }}
-      destination-repository-name: $ {{ secrets.GODOT_BIN_REPO_NAME}}
+      destination-github-username: ${{ github.repository_owner }}
+      destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
     secrets:
       repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
