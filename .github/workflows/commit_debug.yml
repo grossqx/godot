@@ -62,8 +62,6 @@ jobs:
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
     secrets:
-      #destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
-      destination-github-username: grossqx
-      #destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
-      destination-repository-name: godot-bin
+      destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
+      destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
       repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}

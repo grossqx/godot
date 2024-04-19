@@ -173,8 +173,8 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
           source-directory: files
-          destination-github-username: ${{ inputs.destination-github-username }}
-          destination-repository-name: ${{ inputs.destination-repository-name }}
+          destination-github-username: ${{ secrets.destination-github-username }}
+          destination-repository-name: ${{ secrets.destination-repository-name }}
           target-branch: ${{ inputs.zip_tag }}-${{ github.ref_name }}
           create-target-branch-if-needed: true
           commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
