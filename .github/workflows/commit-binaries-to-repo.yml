@@ -169,8 +169,8 @@ jobs:
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.7.2
         env:
-          #SSH_DEPLOY_KEY: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
-          SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
+          SSH_DEPLOY_KEY: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
+          #SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
           source-directory: files
           destination-github-username: ${{ inputs.destination-github-username }}
