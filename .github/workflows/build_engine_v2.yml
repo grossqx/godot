@@ -73,36 +73,36 @@ jobs:
 
   # Windows
 
-  #build-windows:
-  #  needs: [env-setup]
-  #  uses: ./.github/workflows/build-artifact-windows.yml
-  #  with:
-  #    build_name: ${{ inputs.build_name }}
-  #    godot_tag: ${{ inputs.godot_tag }}
-  #    godot_version: ${{ needs.env-setup.outputs.godot_version }}
-  #    steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
-  #  secrets:
-  #    steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
-  #    steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
-  #    godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
+  build-windows:
+    needs: [env-setup]
+    uses: ./.github/workflows/build-artifact-windows.yml
+    with:
+      build_name: ${{ inputs.build_name }}
+      godot_tag: ${{ inputs.godot_tag }}
+      godot_version: ${{ needs.env-setup.outputs.godot_version }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+    secrets:
+      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
+      steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
+      godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
 
-  #create-windows64-bundle:
-  #  needs: [env-setup, build-windows]
-  #  uses: ./.github/workflows/create-bundle.yml
-  #  with:
-  #    artifact_type: windows64
-  #    platform: Windows64
-  #    zip_prefix: win64
-  #    zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+  create-windows64-bundle:
+    needs: [env-setup, build-windows]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: windows64
+      platform: Windows64
+      zip_prefix: win64
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
 
-  #create-windows32-bundle:
-  #  needs: [env-setup, build-windows]
-  #  uses: ./.github/workflows/create-bundle.yml
-  #  with:
-  #    artifact_type: windows32
-  #    platform: Windows32
-  #    zip_prefix: win32
-  #    zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+  create-windows32-bundle:
+    needs: [env-setup, build-windows]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: windows32
+      platform: Windows32
+      zip_prefix: win32
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
 
   # Bundle all templates
 
@@ -122,8 +122,6 @@ jobs:
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
     secrets:
-      #destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
-      destination-github-username: grossqx
-      #destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
-      destination-repository-name: godot-bin
+      destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
+      destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
       repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}

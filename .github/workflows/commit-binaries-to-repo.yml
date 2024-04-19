@@ -169,13 +169,12 @@ jobs:
       - name: Push directory to another repository
         uses: cpina/github-action-push-to-another-repository@v1.7.2
         env:
-          #SSH_DEPLOY_KEY: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
           SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
           source-directory: files
           destination-github-username: ${{ secrets.destination-github-username }}
           destination-repository-name: ${{ secrets.destination-repository-name }}
-          target-branch: ${{ inputs.zip_tag }}-${{ github.ref_name }}
+          target-branch: ${{ github.ref_name }}-${{ inputs.zip_tag }}
           create-target-branch-if-needed: true
           commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
           #target-directory: [optional]
