@@ -55,7 +55,9 @@ jobs:
       build_name: ${{ inputs.build_name }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_ref }}
+      godotsteam_ref: ${{ inputs.godotsteam_ref }}
+      multiplayer_peer_ref: ${{ inputs.multiplayer_peer_ref }}
+      steamworks_sdk_ref: ${{ inputs.steamworks_sdk_ref }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
       steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
@@ -88,7 +90,9 @@ jobs:
       build_name: ${{ inputs.build_name }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+      godotsteam_ref: ${{ inputs.godotsteam_ref }}
+      multiplayer_peer_ref: ${{ inputs.multiplayer_peer_ref }}
+      steamworks_sdk_ref: ${{ inputs.steamworks_sdk_ref }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
       steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
