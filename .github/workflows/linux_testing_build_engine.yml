@@ -1,5 +1,5 @@
-name: Linux - Build test Godot build with GodotSteam and SteamMultiplayerPeer
-run-name: Build Godot with GS and SMP and package all binaries ${{ github.event.ref }}
+name: Linux64 bundle - Build Godot(GS-SMP) 
+run-name: Linux64 bundle - Build Godot(GS-SMP) ${{ github.event.ref }}
 
 
 on:
@@ -9,7 +9,7 @@ on:
         description: Will be displayed in console when launching builds and in the editor, next to the version.
         required: false
         type: string
-        default: satellite_build_DEV
+        default: satellite-DEV
       # Used for file names
       godot_tag:
         description: 'Used for file names - Godot Github tag:'
