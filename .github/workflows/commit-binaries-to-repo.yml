@@ -1,0 +1,182 @@
+name: Uploading binaries to repository
+run-name: Uploading binaries built from ${{ github.event.ref }}
+on:
+  workflow_call:
+    inputs:
+      zip_tag:
+        required: true
+        type: string
+    secrets:
+      destination-github-username:
+        description: Username of destination repository owner
+      destination-repository-name:
+        description: Name of the repository to push into
+      repo-deploy-key:
+        description: SSH Deploy Key to the target repository
+
+
+jobs:
+  commit-to-repo:
+    name: Upload result binaries to the repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4      
+
+      # Windows binaries and Steam redistributables
+      - name: Download Windows 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-editor
+          path: files/editor-windows64
+          
+      - name: Download Windows 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-editor
+          path: files/editor-windows32
+      
+      - name: Download Windows 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-release-template
+          path: files/templates
+
+      - name: Download Windows 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-release-template
+          path: files/templates
+
+      - name: Download Windows 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-debug-template
+          path: files/templates
+
+      - name: Download Windows 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-debug-template
+          path: files/templates
+
+      - name: Download Windows 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-steam
+          path: files/editor-windows64
+
+      - name: Download Windows 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-steam
+          path: files/editor-windows32
+
+      # Linux binaries and Steam redistributable
+      - name: Download Linux 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-editor
+          path: files/editor-linux64
+      
+      - name: Download Linux 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-editor
+          path: files/editor-linux32
+      
+      - name: Download Linux 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-release-template
+          path: files/templates
+
+      - name: Download Linux 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-release-template
+          path: files/templates
+
+      - name: Download Linux 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-debug-template
+          path: files/templates
+
+      - name: Download Linux 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-debug-template
+          path: files/templates
+
+      - name: Download Linux 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-steam
+          path: files/editor-linux64
+
+      - name: Download Linux 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-steam
+          path: files/editor-linux32
+
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      # Check files
+      - run: ls ${{ github.workspace }}/files
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+      - name: Create zip of a Full Bundle
+        if: always()
+        run: |
+          cd ./files/
+          ls
+          zip -r ./../godot-${{ inputs.zip_tag }}-all-bin.zip *
+          cd ${{ github.workspace }}
+      
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      - name: Upload zip of a Full Bundle Artifact
+        if: always()
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: godot-${{ inputs.zip_tag }}-all-bin.zip
+          path: godot-${{ inputs.zip_tag }}-all-bin.zip
+
+      - name: Push directory to another repository
+        #uses: cpina/github-action-push-to-another-repository@v1.7.2
+        uses: grossqx/github-action-push-to-another-repository@feature-keep_gitattributes
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
+        with:
+          source-directory: files
+          destination-github-username: ${{ secrets.destination-github-username }}
+          destination-repository-name: ${{ secrets.destination-repository-name }}
+          target-branch: ${{ github.ref_name }}-${{ inputs.zip_tag }}
+          create-target-branch-if-needed: true
+          keep-gitattributes: true
+          commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
+          #target-directory: [optional]

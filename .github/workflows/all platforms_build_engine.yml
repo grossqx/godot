@@ -1,0 +1,133 @@
+name: All platforms - Build Godot with GodotSteam and SteamMultiplayerPeer
+run-name: Build Godot with GS and SMP and package all binaries ${{ github.event.ref }}
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_name:
+        description: Will be displayed in console when launching builds and in the editor, next to the version.
+        required: false
+        type: string
+        default: satellite_build
+      # Used for file names
+      godot_tag:
+        description: 'Used for file names - Godot Github tag:'
+        required: true
+        type: string
+        default: '4.2.1-stable'
+      godotsteam_version:
+        description: 'Used for file names - GodotSteam version number:'
+        required: true
+        type: string
+        default: '4.6.1'
+      # Used to pick the branch and version of SDK
+      godotsteam_ref:
+        description: 'GodotSteam module Github branch:'
+        required: true
+        type: string
+        default: 'godot4'
+      multiplayer_peer_ref:
+        description: 'multiplayer-peer module Github branch:'
+        required: true
+        type: string
+        default: 'multiplayer-peer'
+      steamworks_sdk_ref:
+        description: 'Steamworks SDK Github branch:'
+        required: true
+        type: string
+        default: '1.59'
+
+jobs:
+  env-setup:
+    uses: ./.github/workflows/setup-env.yml
+    with:
+      godot_tag: ${{ inputs.godot_tag }}
+      godotsteam_version: ${{ inputs.godotsteam_version }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+
+  # Linux
+
+  build-linux:
+    needs: [env-setup]
+    uses: ./.github/workflows/build-artifact-linux.yml
+    with:
+      build_name: ${{ inputs.build_name }}
+      godot_tag: ${{ inputs.godot_tag }}
+      godot_version: ${{ needs.env-setup.outputs.godot_version }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_ref }}
+    secrets:
+      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
+      steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
+      godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
+
+  create-linux64-bundle:
+    needs: [env-setup, build-linux]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: linux64
+      platform: Linux64
+      zip_prefix: linux64
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  #create-linux32-bundle:
+  #  needs: [env-setup, build-linux]
+  #  uses: ./.github/workflows/create-bundle.yml
+  #  with:
+  #    artifact_type: linux32
+  #    platform: Linux32
+  #    zip_prefix: linux32
+  #    zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Windows
+
+  build-windows:
+    needs: [env-setup]
+    uses: ./.github/workflows/build-artifact-windows.yml
+    with:
+      build_name: ${{ inputs.build_name }}
+      godot_tag: ${{ inputs.godot_tag }}
+      godot_version: ${{ needs.env-setup.outputs.godot_version }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+    secrets:
+      steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
+      steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
+      godot_encryption_key: ${{ secrets.GODOT_ENCRYPTION_KEY }}
+
+  create-windows64-bundle:
+    needs: [env-setup, build-windows]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: windows64
+      platform: Windows64
+      zip_prefix: win64
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  create-windows32-bundle:
+    needs: [env-setup, build-windows]
+    uses: ./.github/workflows/create-bundle.yml
+    with:
+      artifact_type: windows32
+      platform: Windows32
+      zip_prefix: win32
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Bundle all templates
+
+  create-template-bundle:
+    needs: [env-setup, build-linux, build-windows]
+    uses: ./.github/workflows/create-bundle-templates.yml
+    with:
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+
+  # Bundle everything
+
+  commit-binaries-to-repo:
+    needs: [env-setup, build-linux, build-windows]
+    uses: ./.github/workflows/commit-binaries-to-repo.yml
+    with:
+      zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
+    secrets:
+      destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
+      destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
+      repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}
