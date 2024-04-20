@@ -1,5 +1,5 @@
-name: Build Godot with GodotSteam and SteamMultiplayerPeer
-run-name: Build Godot with GS and SMP and package all binaries
+name: All platforms - Build Godot with GodotSteam and SteamMultiplayerPeer
+run-name: Build Godot with GS and SMP and package all binaries ${{ github.event.ref }}
 
 
 on:
@@ -10,25 +10,33 @@ on:
         required: false
         type: string
         default: satellite_build
-      # Used to pick the branch and version of SDK
-      steamworks_sdk_tag:
-        description: 'Steamworks SDK Github branch:'
-        required: true
-        type: string
-        default: '1.59'
       # Used for file names
       godot_tag:
         description: 'Used for file names - Godot Github tag:'
         required: true
         type: string
         default: '4.2.1-stable'
-      # Used for file names
       godotsteam_version:
         description: 'Used for file names - GodotSteam version number:'
         required: true
         type: string
         default: '4.6.1'
-
+      # Used to pick the branch and version of SDK
+      godotsteam_ref:
+        description: 'GodotSteam module Github branch:'
+        required: true
+        type: string
+        default: 'godot4'
+      multiplayer_peer_ref:
+        description: 'multiplayer-peer module Github branch:'
+        required: true
+        type: string
+        default: 'multiplayer-peer'
+      steamworks_sdk_ref:
+        description: 'Steamworks SDK Github branch:'
+        required: true
+        type: string
+        default: '1.59'
 
 jobs:
   env-setup:
@@ -47,7 +55,7 @@ jobs:
       build_name: ${{ inputs.build_name }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
-      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_ref }}
     secrets:
       steamworks_sdk_repo: ${{ secrets.STEAMWORKS_REPO }}
       steamorks_ssh_deploy_key: ${{ secrets.STEAMWORKS_DEPLOY_KEY }}
@@ -114,20 +122,12 @@ jobs:
 
   # Bundle everything
 
-  #create-everything-bundle:
-  #  needs: [env-setup, build-linux, build-windows]
-  #  uses: ./.github/workflows/create-bundle-everything.yml
-  #  with:
-  #    zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
-
-  # Bundle everything. Create artifact and push binaries to repository
-
   commit-binaries-to-repo:
     needs: [env-setup, build-linux, build-windows]
-    uses: ./.github/workflows/create-bundle-everything.yml
+    uses: ./.github/workflows/commit-binaries-to-repo.yml
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
-      destination-github-username: $ {{ github.repository_owner }}
-      destination-repository-name: $ {{ secrets.GODOT_BIN_REPO_NAME}}
     secrets:
+      destination-github-username: ${{ secrets.GODOT_BIN_REPO_OWNER }}
+      destination-repository-name: ${{ secrets.GODOT_BIN_REPO_NAME}}
       repo-deploy-key: ${{ secrets.GODOT_BIN_DEPLOY_KEY }}

@@ -14,7 +14,7 @@ inputs:
     description: Private key from the pair of deploy key in SDK repository
     default: "Who knows..."
   ref:
-    description: The Steamworks SDK tag used
+    description: The Steamworks SDK branch used
     default: "1.59"
 runs:
   using: "composite"

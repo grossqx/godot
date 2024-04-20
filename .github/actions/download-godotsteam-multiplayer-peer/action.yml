@@ -1,5 +1,9 @@
 name: Download GodotSteam Multiplayer Peer
 description: Download and extract the GodotSteam Multiplayer Peer source code for use in compiling
+inputs:
+  ref:
+    description: Branch to pull from
+    default: "multiplayer-peer"
 runs:
   using: "composite"
   steps:
@@ -8,7 +12,7 @@ runs:
       with:
         repository: "grossqx/GodotSteam"
         path: "godotsteam_multiplayer"
-        ref: "multiplayer-peer"
+        ref: ${{ inputs.ref }}
 
     - name: Copy GodotSteam
       shell: bash

@@ -1,5 +1,9 @@
 name: Download GodotSteam
 description: Download and extract the GodotSteam source code for use in compiling
+inputs:
+  ref:
+    description: Branch to pull from
+    default: "godot4"
 runs:
   using: "composite"
   steps:
@@ -8,7 +12,7 @@ runs:
       with:
         repository: "grossqx/GodotSteam"
         path: "godotsteam"
-        ref: "godot4"
+        ref: ${{ inputs.ref }}
 
     - name: Copy GodotSteam
       shell: bash

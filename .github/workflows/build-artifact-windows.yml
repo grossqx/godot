@@ -11,7 +11,13 @@ on:
       godot_version:
         required: true
         type: string
-      steamworks_sdk_tag:
+      godotsteam_ref:
+        required: true
+        type: string
+      multiplayer_peer_ref:
+        required: true
+        type: string
+      steamworks_sdk_ref:
         required: true
         type: string
     secrets:
@@ -75,10 +81,14 @@ jobs:
       # Download GodotSteam
       - name: Download GodotSteam
         uses: ./.github/actions/download-godotsteam
+        with:
+          ref: ${{ inputs.godotsteam_ref }}
 
       # Download SteamMultiplayerPeer
       - name: Download SteamMultiplayerPeer
         uses: ./.github/actions/download-godotsteam-multiplayer-peer
+        with:
+          ref: ${{ inputs.multiplayer_peer_ref }}
 
       # Download Steamworks SDK
       - name: Download Steamworks SDK
@@ -87,7 +97,7 @@ jobs:
           path: "steamworks-sdk"
           repository: ${{ secrets.steamworks_sdk_repo }}
           ssh_deploy_key: ${{ secrets.steamorks_ssh_deploy_key }}
-          ref: ${{ inputs.steamworks_sdk_tag }}
+          ref: ${{ inputs.steamworks_sdk_ref }}
       
       # Check files
       - run: dir ${{ github.workspace }}
