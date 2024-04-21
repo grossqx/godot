@@ -1,5 +1,5 @@
-name: All platforms - Build Godot with GodotSteam and SteamMultiplayerPeer
-run-name: Build Godot with GS and SMP and package all binaries ${{ github.event.ref }}
+name: All OS - Build Godot(GS-SMP)
+run-name: All OS - Build Godot(GS-SMP) bundle and commit ${{ github.event.ref }}
 
 
 on:
@@ -9,7 +9,7 @@ on:
         description: Will be displayed in console when launching builds and in the editor, next to the version.
         required: false
         type: string
-        default: satellite_build
+        default: satellite-main
       # Used for file names
       godot_tag:
         description: 'Used for file names - Godot Github tag:'
