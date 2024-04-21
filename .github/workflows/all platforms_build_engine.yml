@@ -15,12 +15,12 @@ on:
         description: 'Used for file names - Godot Github tag:'
         required: true
         type: string
-        default: '4.2.1-stable'
+        default: '4.2.2-stable'
       godotsteam_version:
         description: 'Used for file names - GodotSteam version number:'
         required: true
         type: string
-        default: '4.6.1'
+        default: '4.6.3'
       # Used to pick the branch and version of SDK
       godotsteam_ref:
         description: 'GodotSteam module Github branch:'
