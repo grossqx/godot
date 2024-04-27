@@ -1,6 +1,10 @@
 name: Build Godot
 description: Build Godot with the provided options
 inputs:
+  version_status:
+    description: Status that gets displayed in the console and editor right next to the version.
+    default: stable
+    required: false
   build_name:
     description: The tag that will be displayed in console when launching and in the editor, next to the version.
     default: custom_build
@@ -52,6 +56,7 @@ runs:
     - name: SCONS Build
       shell: bash
       env:
+          GODOT_VERSION_STATUS: ${{ inputs.version_status }}
           BUILD_NAME: ${{ inputs.build_name }}
           SCONSFLAGS: ${{ inputs.sconsflags }}
           SCONS_CACHE: ${{ inputs.scons-cache }}

@@ -1,6 +1,10 @@
 on:
   workflow_call:
     inputs:
+      version_status:
+        required: false
+        type: string
+        default: stable
       build_name:
         required: false
         type: string
@@ -136,6 +140,7 @@ jobs:
       - name: Editor Compilation
         uses: ./.github/actions/build-godot
         with:
+          version_status: ${{ inputs.version_status }}
           build_name: ${{ inputs.build_name }}
           #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
           #sconsflags: bits=64
@@ -163,6 +168,7 @@ jobs:
       - name: Debug Template Compilation (target=template_debug)
         uses: ./.github/actions/build-godot
         with:
+          version_status: ${{ inputs.version_status }}
           build_name: ${{ inputs.build_name }}
           #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
           #sconsflags: bits=64
@@ -184,6 +190,7 @@ jobs:
       - name: Release Template Compilation (target=template_release)
         uses: ./.github/actions/build-godot
         with:
+          version_status: ${{ inputs.version_status }}
           build_name: ${{ inputs.build_name }}
           #buildroot: "${{ github.workspace }}/x86_64-godot-linux-gnu_sdk-buildroot/bin"
           #sconsflags: bits=64 debug_symbols=no
