@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
     inputs:
       version_status:
-        description: Status that gets displayed in the console and editor right next to the version.
+        description: Status that gets displayed in the console, logs and the editor right next to the version.
         default: stable
         required: false      
       build_name:
-        description: Will be displayed in console when launching builds and in the editor, next to the version.
+        description: Will be displayed next to the version in the console, logs and the editor's About section.
         required: false
         type: string
         default: satellite
