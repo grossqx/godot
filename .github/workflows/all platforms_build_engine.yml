@@ -57,7 +57,7 @@ jobs:
     uses: ./.github/workflows/build-artifact-linux.yml
     with:
       version_status: ${{ inputs.version_status }}
-      build_name: ${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
+      build_name: ga-${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       godotsteam_ref: ${{ inputs.godotsteam_ref }}
@@ -93,7 +93,7 @@ jobs:
     uses: ./.github/workflows/build-artifact-windows.yml
     with:
       version_status: ${{ inputs.version_status }}
-      build_name: ${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
+      build_name: ga-${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       godotsteam_ref: ${{ inputs.godotsteam_ref }}
