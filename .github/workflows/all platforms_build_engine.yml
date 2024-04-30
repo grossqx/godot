@@ -7,8 +7,8 @@ on:
     inputs:
       version_status:
         description: Status that gets displayed in the console, logs and the editor right next to the version.
-        default: stable
-        required: false      
+        default: beta
+        required: false
       build_name:
         description: Will be displayed next to the version in the console, logs and the editor's About section.
         required: false
