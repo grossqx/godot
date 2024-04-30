@@ -44,7 +44,7 @@ jobs:
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godotsteam_version: ${{ inputs.godotsteam_version }}
-      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_ref }}
 
   # Linux
 

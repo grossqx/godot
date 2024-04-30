@@ -5,22 +5,26 @@ run-name: All OS - Build Godot(GS-SMP) bundle and commit ${{ github.event.ref }}
 on:
   workflow_dispatch:
     inputs:
+      version_status:
+        description: Status that gets displayed in the console, logs and the editor right next to the version.
+        default: stable
+        required: false      
       build_name:
-        description: Will be displayed in console when launching builds and in the editor, next to the version.
+        description: Will be displayed next to the version in the console, logs and the editor's About section.
         required: false
         type: string
-        default: satellite-main
+        default: satellite
       # Used for file names
       godot_tag:
         description: 'Used for file names - Godot Github tag:'
         required: true
         type: string
-        default: '4.2.1-stable'
+        default: '4.2.2-stable'
       godotsteam_version:
         description: 'Used for file names - GodotSteam version number:'
         required: true
         type: string
-        default: '4.6.1'
+        default: '4.7'
       # Used to pick the branch and version of SDK
       godotsteam_ref:
         description: 'GodotSteam module Github branch:'
@@ -44,7 +48,7 @@ jobs:
     with:
       godot_tag: ${{ inputs.godot_tag }}
       godotsteam_version: ${{ inputs.godotsteam_version }}
-      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_tag }}
+      steamworks_sdk_tag: ${{ inputs.steamworks_sdk_ref }}
 
   # Linux
 
@@ -52,7 +56,8 @@ jobs:
     needs: [env-setup]
     uses: ./.github/workflows/build-artifact-linux.yml
     with:
-      build_name: ${{ inputs.build_name }}
+      version_status: ${{ inputs.version_status }}
+      build_name: ga-${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       godotsteam_ref: ${{ inputs.godotsteam_ref }}
@@ -87,7 +92,8 @@ jobs:
     needs: [env-setup]
     uses: ./.github/workflows/build-artifact-windows.yml
     with:
-      build_name: ${{ inputs.build_name }}
+      version_status: ${{ inputs.version_status }}
+      build_name: ga-${{ inputs.build_name }}-${{ needs.env-setup.outputs.zip_tag }}
       godot_tag: ${{ inputs.godot_tag }}
       godot_version: ${{ needs.env-setup.outputs.godot_version }}
       godotsteam_ref: ${{ inputs.godotsteam_ref }}
