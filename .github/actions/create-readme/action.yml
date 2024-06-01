@@ -21,9 +21,9 @@ runs:
     - name: Writing readme file
       shell: bash
       run: |
-        echo #${{ inputs.title }} >> ${{ inputs.output_file }}
+        echo -e \#${{ inputs.title }} >> ${{ inputs.output_file }}
         echo >> ${{ inputs.output_file }}
-        echo ${{ inputs.content }} >> ${{ inputs.output_file }}
+        echo -e ${{ inputs.content }} >> ${{ inputs.output_file }}
 
     - name: Checking resulting file contents
       shell: bash
