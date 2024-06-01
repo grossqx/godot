@@ -32,7 +32,7 @@ jobs:
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
         run: echo "$MATRIX_CONTEXT"
 
-      - name: Download Steamworks SDK
+      - name: Create readme file
         uses: ./.github/actions/create-readme
         with:
           output_file: README.md
