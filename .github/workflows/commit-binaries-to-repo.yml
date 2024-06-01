@@ -155,6 +155,13 @@ jobs:
       # Check files
       - run: ls ${{ github.workspace }}
 
+      - name: Create readme file
+        uses: ./.github/actions/create-readme
+        with:
+          output_file: files/README.md
+          title: Godot custom build. GodotSteam, SteamMultiplayerPeer
+          content: ${{ needs.env-setup.outputs.zip_tag }}
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
