@@ -1,0 +1,28 @@
+name: Create readme file
+description: Create readme file
+inputs:
+  output_file:
+    description: Output file path
+    default: README.md
+    required: false
+  title:
+    description: Title of readme file
+    default: Readme
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Writing readme file
+      shell: bash
+      run: |
+        echo #${{ inputs.title }} >> ${{ inputs.output_file }}
+        echo >> ${{ inputs.output_file }}
+        echo Test Readme file >> ${{ inputs.output_file }}
+
+    - name: Checking resulting file contents
+      shell: bash
+      run: |
+        echo file ${{ inputs.output_file }}
+        echo
+        cat ${{ inputs.output_file }}
