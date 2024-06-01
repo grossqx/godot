@@ -171,6 +171,8 @@ jobs:
         uses: grossqx/github-action-push-to-another-repository@feature-keep_gitattributes
         env:
           SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
+          ## Temp fix for git-lfs issue 5754
+          GIT_CLONE_PROTECTION_ACTIVE : false
         with:
           source-directory: files
           destination-github-username: ${{ secrets.destination-github-username }}
