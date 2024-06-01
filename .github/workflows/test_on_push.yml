@@ -43,7 +43,4 @@ jobs:
         with:
           output_file: README2.md
           title: Test title
-          content: | 
-            Text of readme file
-            Line 2
-            Line 3
+          content: Text of readme file
