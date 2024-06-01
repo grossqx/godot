@@ -7,7 +7,7 @@ on:
     inputs:
       version_status:
         description: Status that gets displayed in the console, logs and the editor right next to the version.
-        default: stable
+        default: beta
         required: false      
       build_name:
         description: Will be displayed next to the version in the console, logs and the editor's About section.
@@ -19,7 +19,7 @@ on:
         description: 'Used for file names - Godot Github tag:'
         required: true
         type: string
-        default: '4.2.2-stable'
+        default: '4.3-beta'
       godotsteam_version:
         description: 'Used for file names - GodotSteam version number:'
         required: true
@@ -30,12 +30,12 @@ on:
         description: 'GodotSteam module Github branch:'
         required: true
         type: string
-        default: 'godot4'
+        default: 'godot4-beta'
       multiplayer_peer_ref:
         description: 'multiplayer-peer module Github branch:'
         required: true
         type: string
-        default: 'multiplayer-peer'
+        default: 'multiplayer-peer-beta'
       steamworks_sdk_ref:
         description: 'Steamworks SDK Github branch:'
         required: true
