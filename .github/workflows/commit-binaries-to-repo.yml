@@ -140,10 +140,20 @@ jobs:
           path: files/editor-linux32
 
       # Check files
-      - run: ls ${{ github.workspace }}
+      - run: ls ${{ github.workspace }}/files
+
+      - name: Set editor permissions (linux64)
+        run: |
+          chmod +x files/editor-linux64/*
+        continue-on-error: true
+
+      - name: Set editor permissions (linux32)
+        run: |
+          chmod +x files/editor-linux32/*
+        continue-on-error: true
 
       # Check files
-      - run: ls ${{ github.workspace }}/files
+      - run: ls ${{ github.workspace }}
 
       - name: Dump GitHub context
         env:
