@@ -1,0 +1,146 @@
+on:
+  workflow_call:
+    inputs:
+      zip_tag:
+        required: true
+        type: string
+
+
+jobs:
+  create-template-bundle:
+    runs-on: ubuntu-latest
+
+    name: Create Full Bundle
+
+    steps:
+      - uses: actions/checkout@v4
+
+
+      # Windows binaries and Steam redistributables
+      - name: Download Windows 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-editor
+          path: files
+          
+      - name: Download Windows 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-editor
+          path: files
+      
+      - name: Download Windows 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-release-template
+          path: files
+
+      - name: Download Windows 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-release-template
+          path: files
+
+      - name: Download Windows 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-debug-template
+          path: files
+
+      - name: Download Windows 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-debug-template
+          path: files
+
+      - name: Download Windows 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows64-steam
+          path: files
+
+      - name: Download Windows 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: windows32-steam
+          path: files
+
+      # Linux binaries and Steam redistributable
+      - name: Download Linux 64-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-editor
+          path: files
+      
+      - name: Download Linux 32-bit Editor
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-editor
+          path: files
+      
+      - name: Download Linux 64-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-release-template
+          path: files
+
+      - name: Download Linux 32-bit Release Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-release-template
+          path: files
+
+      - name: Download Linux 64-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-debug-template
+          path: files
+
+      - name: Download Linux 32-bit Debug Template
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-debug-template
+          path: files
+
+      - name: Download Linux 64-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux64-steam
+          path: files
+
+      - name: Download Linux 32-bit Steam Redistributable
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          name: linux32-steam
+          path: files
+
+      - name: Create Full Bundle
+        if: always()
+        run: |
+          zip -j godotsteam-${{ inputs.zip_tag }}-everything.zip files/*
+      
+      # Check files
+      - run: ls ${{ github.workspace }}
+
+      - name: Upload Full Bundle Artifact
+        if: always()
+        uses: ./.github/actions/upload-artifact
+        with:
+          name: godotsteam-${{ inputs.zip_tag }}-everything.zip
+          path: godotsteam-${{ inputs.zip_tag }}-everything.zip
