@@ -24,7 +24,7 @@ on:
         description: 'Used for file names - GodotSteam version number:'
         required: true
         type: string
-        default: '4.7'
+        default: '4.8'
       # Used to pick the branch and version of SDK
       godotsteam_ref:
         description: 'GodotSteam module Github branch:'
