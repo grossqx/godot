@@ -1,3 +1,7 @@
+name: Build Linux binaries
+run-name: Build Linux binaries
+
+
 on:
   workflow_call:
     inputs:

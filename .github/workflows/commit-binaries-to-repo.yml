@@ -1,5 +1,7 @@
 name: Uploading binaries to repository
 run-name: Uploading binaries built from ${{ github.event.ref }}
+
+
 on:
   workflow_call:
     inputs:
