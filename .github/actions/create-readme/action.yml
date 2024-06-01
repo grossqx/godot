@@ -9,6 +9,11 @@ inputs:
     description: Title of readme file
     default: Readme
     required: false
+  content:
+    description: Content of readme file
+    default: Content
+    required: false
+  
 
 runs:
   using: "composite"
@@ -18,7 +23,7 @@ runs:
       run: |
         echo #${{ inputs.title }} >> ${{ inputs.output_file }}
         echo >> ${{ inputs.output_file }}
-        echo Test Readme file >> ${{ inputs.output_file }}
+        echo ${{ inputs.content }} >> ${{ inputs.output_file }}
 
     - name: Checking resulting file contents
       shell: bash
