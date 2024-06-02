@@ -160,7 +160,7 @@ jobs:
         with:
           output_file: files/README.md
           title: Godot custom build. GodotSteam, SteamMultiplayerPeer
-          content: ${{ needs.env-setup.outputs.zip_tag }}
+          content: Binaries built from ${{ github.repository }}/${{ github.ref }} (${{ inputs.zip_tag }})
 
       - name: Dump GitHub context
         env:
