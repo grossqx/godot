@@ -1,3 +1,7 @@
+name: Bundle all binaries
+run-name: Bundle all binaries
+
+
 on:
   workflow_call:
     inputs:

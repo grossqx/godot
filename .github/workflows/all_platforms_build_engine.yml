@@ -122,15 +122,11 @@ jobs:
       zip_prefix: win32
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
 
-  # Bundle all templates
-
   create-template-bundle:
     needs: [env-setup, build-linux, build-windows]
     uses: ./.github/workflows/create-bundle-templates.yml
     with:
       zip_tag: ${{ needs.env-setup.outputs.zip_tag }}
-
-  # Bundle everything
 
   commit-binaries-to-repo:
     needs: [env-setup, build-linux, build-windows]

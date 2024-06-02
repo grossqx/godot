@@ -1,5 +1,7 @@
 name: Uploading binaries to repository
 run-name: Uploading binaries built from ${{ github.event.ref }}
+
+
 on:
   workflow_call:
     inputs:
@@ -138,10 +140,27 @@ jobs:
           path: files/editor-linux32
 
       # Check files
-      - run: ls ${{ github.workspace }}
+      - run: ls ${{ github.workspace }}/files
+
+      - name: Set editor permissions (linux64)
+        run: |
+          chmod +x files/editor-linux64/*
+        continue-on-error: true
+
+      - name: Set editor permissions (linux32)
+        run: |
+          chmod +x files/editor-linux32/*
+        continue-on-error: true
 
       # Check files
-      - run: ls ${{ github.workspace }}/files
+      - run: ls ${{ github.workspace }}
+
+      - name: Create readme file
+        uses: ./.github/actions/create-readme
+        with:
+          output_file: files/README.md
+          title: Godot custom build. GodotSteam, SteamMultiplayerPeer
+          content: Binaries built from ${{ github.repository }}/${{ github.ref }} (${{ inputs.zip_tag }})
 
       - name: Dump GitHub context
         env:
