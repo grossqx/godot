@@ -157,6 +157,7 @@ jobs:
 
       - name: Create readme file
         uses: ./.github/actions/create-readme
+        continue-on-error: true
         with:
           output_file: files/README.md
           title: Godot custom build. GodotSteam, SteamMultiplayerPeer
