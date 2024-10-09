@@ -162,11 +162,6 @@ jobs:
           title: Godot custom build. GodotSteam, SteamMultiplayerPeer
           content: Binaries built from ${{ github.ref }} - ${{ inputs.zip_tag }}
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
       - name: Create zip of a Full Bundle
         if: always()
         run: |
@@ -188,6 +183,7 @@ jobs:
       - name: Push directory to another repository
         #uses: cpina/github-action-push-to-another-repository@v1.7.2
         uses: grossqx/github-action-push-to-another-repository@feature-keep_gitattributes
+        continue-on-error: true
         env:
           SSH_DEPLOY_KEY: ${{ secrets.repo-deploy-key }}
         with:
@@ -197,5 +193,5 @@ jobs:
           target-branch: ${{ github.ref_name }}-${{ inputs.zip_tag }}
           create-target-branch-if-needed: true
           keep-gitattributes: true
-          commit-message: Binaries built from ${{ github.repository }}/${{ github.ref }}
+          commit-message: Binaries built from ${{ github.ref }}
           #target-directory: [optional]
