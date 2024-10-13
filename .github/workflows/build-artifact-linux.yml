@@ -86,6 +86,15 @@ jobs:
         run: |
           mkdir ./bin/
 
+      # Download Steamworks SDK
+      - name: Download Steamworks SDK
+        uses: ./.github/actions/download-steamworks
+        with:
+          path: "steamworks-sdk"
+          repository: ${{ secrets.steamworks_sdk_repo }}
+          ssh_deploy_key: ${{ secrets.steamorks_ssh_deploy_key }}
+          ref: ${{ inputs.steamworks_sdk_ref }}
+
       # Download GodotSteam
       - name: Download GodotSteam
         uses: ./.github/actions/download-godotsteam
@@ -97,15 +106,6 @@ jobs:
         uses: ./.github/actions/download-godotsteam-multiplayer-peer
         with:
           ref: ${{ inputs.multiplayer_peer_ref }}
-
-      # Download Steamworks SDK
-      - name: Download Steamworks SDK
-        uses: ./.github/actions/download-steamworks
-        with:
-          path: "steamworks-sdk"
-          repository: ${{ secrets.steamworks_sdk_repo }}
-          ssh_deploy_key: ${{ secrets.steamorks_ssh_deploy_key }}
-          ref: ${{ inputs.steamworks_sdk_ref }}
       
       # Check files
       - run: ls ${{ github.workspace }}
